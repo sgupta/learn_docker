@@ -95,7 +95,7 @@ Remove images not required
 
 `docker inspect <conatiner id>`
  
- `$ sudo docker inspect 58155893f7a8
+ ```$ sudo docker inspect 58155893f7a8
 [
     {
         "Id": "58155893f7a89824773657e411ddd308310db545de2df87954471da842337802",
@@ -285,13 +285,13 @@ Remove images not required
         }
     }
 ]
-`
+```
  
  
 # Run container as webserver and publish some Static contents
  # Command to find expose ports on image to map with with port on ports on host
  
- `
+ 
  # Command to run a webserver container and expose on port 80
 
 
