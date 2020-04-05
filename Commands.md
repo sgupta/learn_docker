@@ -311,9 +311,4 @@ sudo docker run --name mynginx -d -p 80:80 nginx
 sudo docker port myngixn
 ```
 
- # Command to find expose ports on image to map with with port on ports on host
- 
- 
- # Command to run a webserver container and expose on port 80
-
-
+ Next file to read is mywebapp.MD 
