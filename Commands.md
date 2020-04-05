@@ -286,9 +286,31 @@ Remove images not required
     }
 ]
 ```
+ To retrive specific section from inspect command used 
+ ```
+ sudo docker inspect 58155893f7a8 --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}'
+172.17.0.2
+```
+```
+sudo docker inspect 58155893f7a8 --format='{{json .Config}}'
+{"Hostname":"58155893f7a8","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"ExposedPorts":{"80/tcp":{}},"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":["PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin","NGINX_VERSION=1.17.9","NJS_VERSION=0.3.9","PKG_RELEASE=1~buster"],"Cmd":["nginx","-g","daemon off;"],"ArgsEscaped":true,"Image":"nginx","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":{"maintainer":"NGINX Docker Maintainers \u003cdocker-maint@nginx.com\u003e"},"StopSignal":"SIGTERM"}
+````
  
  
-# Run container as webserver and publish some Static contents
+# Run container as webserver and publish some Static contents and detach
+Below command with start nginx container on Random host ports (-P) and detach from it (-d) to return prompt
+```
+sudo docker run -d -P nginx
+
+```
+
+Below command will start nginx container with host port mapped to container ports (-p port:port)
+```
+sudo docker run --name mynginx -d -p 80:80 nginx
+
+sudo docker port myngixn
+```
+
  # Command to find expose ports on image to map with with port on ports on host
  
  
