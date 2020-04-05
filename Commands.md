@@ -44,7 +44,7 @@
       Status: Downloaded newer image for docker.io/sgupta/ubuntu_example:latest
       [sgupta3@dockermgr1 learn_dcoker]$`
 
-# Other commans
+# Other commands
 To list existing images
 
 `docker images`
