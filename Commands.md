@@ -1,4 +1,4 @@
-#First command to test your Docker installation. This will fetch a small imgae which print "Hello World"
+# First command to test your Docker installation. This will fetch a small imgae which print "Hello World"
 
  `docker run hello-world`
  
@@ -25,3 +25,21 @@
          https://docs.docker.com/get-started/
 
         [sgupta3@dockermgr1 learn_dcoker]$
+# Pull image from docker hub or other repositiry 
+`docker pull <image>`
+
+`docker pull centos:centos7`
+
+      '[sgupta3@dockermgr1 learn_dcoker]$ sudo docker pull sgupta/ubuntu_example
+      Using default tag: latest
+      Trying to pull repository docker.io/sgupta/ubuntu_example ...
+      latest: Pulling from docker.io/sgupta/ubuntu_example
+      2de59b831a23: Pull complete
+      354c3661655e: Pull complete
+      91930878a2d7: Pull complete
+      a3ed95caeb02: Pull complete
+      8d394a2a67ef: Pull complete
+      95ca3a90f576: Pull complete
+      Digest: sha256:800b1c2c05be18b30e907dcd142d526ab33cb8e364fd4735edaa204d5186dfab
+      Status: Downloaded newer image for docker.io/sgupta/ubuntu_example:latest
+      [sgupta3@dockermgr1 learn_dcoker]$`
