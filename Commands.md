@@ -43,3 +43,53 @@
       Digest: sha256:800b1c2c05be18b30e907dcd142d526ab33cb8e364fd4735edaa204d5186dfab
       Status: Downloaded newer image for docker.io/sgupta/ubuntu_example:latest
       [sgupta3@dockermgr1 learn_dcoker]$`
+
+# Other commans
+To list existing images
+
+`docker images`
+
+To run a container either from local images or remote
+
+`docker run <image>`
+
+`docker run sgupta/ubuntu_example`
+
+List current running containers 
+
+`docker ps`
+
+List all current and past running containers 
+
+`docker ps -a`
+
+Stop a running conatiner 
+
+`docker stop <container id>`  - Note: use "docker ps" command to find container id
+
+Run a container and connect to shell
+
+`sudo docker run -it sgupta/ubuntu_example "/bin/bash"`
+
+Execute command inside conatiner
+
+`sudo docker exec <container id> "date"`
+
+`sudo docker exec <container id> "/bin/bash"` Note - This can be used to connect after starting a contaier to connect
+
+Providing a Name alias to a container to use instead of id
+
+`dokcer run --name ubuntu sgupta/ubuntu_example`
+
+Remove images not required
+
+`docker rm <image id>`
+
+`docker rm $(docker ps -a -q -f status=exited)` note - Find and remove images from stopped container"`
+
+`docker conatiner prune` Note - Remove all images from stopped conatiners
+
+`docker run --rm  busybox`
+
+
+
