@@ -35,7 +35,14 @@ Docker runs instructions in a Dockerfile in order. A Dockerfile must begin with 
 Docker treats lines that begin with # as a comment
 Example 1
 ```
-#my first example for Dockerfile
+[sgupta3@dockermgr2 example1]$ cat dockerfile
+#example 1 simple FROM
 FROM busybox
+[sgupta3@dockermgr2 example1]$ sudo docker build . -f ./dockerfile
+Sending build context to Docker daemon 2.048 kB
+Step 1/1 : FROM busybox
+ ---> 83aa35aa1c79
+Successfully built 83aa35aa1c79
+[sgupta3@dockermgr2 example1]$
 
 ```
