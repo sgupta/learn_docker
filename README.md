@@ -74,19 +74,10 @@ example 2
 ```
 [sgupta3@dockermgr2 example2]$ cat dockerfile
 FROM busybox:glibc
-RUN /bin/bash -c 'echo TEST1;echo TEST2'
-RUN ["/bin/bash", "-c", "echo TEST3"]
+RUN /bin/sh -c 'echo TEST1;echo TEST2'
+RUN ["/bin/sh", "-c", "echo TEST3"]
 RUN ls
-[sgupta3@dockermgr2 example2]$ sudo docker build . -f ./dockerfile
-Sending build context to Docker daemon 2.048 kB
-Step 1/4 : FROM busybox:glibc
- ---> 845454170a51
-Step 2/4 : RUN /bin/bash -c 'echo TEST1;echo TEST2'
- ---> Running in 7b6ae6801418
 
-/bin/sh: /bin/bash: not found
-The command '/bin/sh -c /bin/bash -c 'echo TEST1;echo TEST2'' returned a non-zero code: 127
-[sgupta3@dockermgr2 example2]$ vim dockerfile
 [sgupta3@dockermgr2 example2]$ sudo docker build . -f ./dockerfile
 Sending build context to Docker daemon 2.048 kB
 Step 1/4 : FROM busybox:glibc
@@ -110,16 +101,6 @@ Step 4/4 : RUN ls
 bin
 dev
 etc
-home
-lib
-lib64
-proc
-root
-run
-sys
-tmp
-usr
-var
  ---> 574c88db8639
 Removing intermediate container 0ea265775c0c
 Successfully built 574c88db8639
