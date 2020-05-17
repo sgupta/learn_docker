@@ -3,7 +3,7 @@
    Build A simple image with shellscript 
    Build a hello word docker images from "busybee" linux contained using a shell script.This image will run and print "Hello World"
    Create Dokerfile and a shell script as below in same directory 
-                
+ ```               
         #Dockerfile
         FROM busybox
         COPY /print_hello.sh /
@@ -34,7 +34,7 @@ Options:
 
   Example0- 
  [sgupta3@dockermgr2 example2]$ sudo docker build . -t example3 -f ./dockerfile
- 
+ ```
 # Docker file options
 Docker can build images automatically by reading the instructions from a Dockerfile. A Dockerfile is a text document that contains all the commands a user could call on the command line to assemble an image. Using docker build users can create an automated build that executes several command-line instructions in succession.
 The docker build command builds an image from a Dockerfile and a context. The build’s context is the set of files at a specified location PATH or URL. The PATH is a directory on your local filesystem. The URL is a Git repository location.
