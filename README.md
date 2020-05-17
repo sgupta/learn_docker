@@ -52,6 +52,10 @@ $ docker build -f /path/to/a/Dockerfile .
 $ docker build -t sgupta/myapp .
 
 ```
+OPTION | FUNCTION 
+------------ | -------------
+FROM | Download base image for build
+ENV | Environment varibales
 ## Dockerfile format
 Docker runs instructions in a Dockerfile in order.
 ### FROM
