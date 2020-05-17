@@ -54,9 +54,11 @@ $ docker build -t sgupta/myapp .
 ```
 OPTION | FUNCTION | EXTRAS
 ------------ | -------------|-----------
-FROM | Download base image for build | FROM centos7:latest
-ENV | Environment varibales | ENV | ENV HOME=/home/sgupta
-WORKDIR |Set working directory inside image being prossed| Can be set mutltiple times
+FROM | Download base image for build | "FROM centos7:latest"
+ENV | Environment varibales | "ENV HOME=/home/sgupta"
+WORKDIR |Set working directory inside image being prossed| "WORKDIR ${HOME}/project1"
+RUN | Execute commands during build | `RUN cd /root` or `RUN ["ls", "-l", "/root"]`.
+COPY | Copy files or directoreis from source(local space) to destination(inside image)| `COPY python/*.py .`.  
 
 ## Dockerfile format
 Docker runs instructions in a Dockerfile in order.
