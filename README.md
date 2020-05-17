@@ -52,10 +52,12 @@ $ docker build -f /path/to/a/Dockerfile .
 $ docker build -t sgupta/myapp .
 
 ```
-OPTION | FUNCTION 
+OPTION | FUNCTION | EXTRAS
 ------------ | -------------
-FROM | Download base image for build
-ENV | Environment varibales
+FROM | Download base image for build | ```FROM centos7:latest```
+ENV | Environment varibales | ENV | ```ENV HOME=/home/sgupta```
+WORKDIR |Set working directory inside image being prossed| Can be set mutltiple times
+
 ## Dockerfile format
 Docker runs instructions in a Dockerfile in order.
 ### FROM
