@@ -56,10 +56,11 @@ $ docker build -t sgupta3/myapp .
 Docker runs instructions in a Dockerfile in order.
 ### FROM
 A Dockerfile must begin with a `FROM` instruction. FROM instructions support variables that are declared by any ARG instructions that occur before the first FROM.Optionally a name can be given to a new build stage by adding AS name to the FROM instruction. The name can be used in subsequent FROM and COPY --from=<name|index> instructions to refer to the image built in this stage.
+With multi-stage builds, you use multiple FROM statements in your Dockerfile. Each FROM instruction can use a different base, and each of them begins a new stage of the build. You can selectively copy artifacts from one stage to another, leaving behind everything you don’t want in the final image.
 
 FROM [--platform=<platform>] <image>[:<tag>] [AS <name>]
  
-Example 1 - One mandotory instructiom if FROM
+Example 1.a - Simple single image build using FROM
 ```
 [sgupta3@dockermgr2 example1]$ cat dockerfile
 #example 1 simple FROM
@@ -71,6 +72,67 @@ Step 1/1 : FROM busybox
 Successfully built 83aa35aa1c79
 [sgupta3@dockermgr2 example1]$
 
+Example 1.b - Multistage build using AS statement with image and copy file from one image to other
+[sgupta3@dockermgr2 example1]$ cat dockerfile
+#example 1.b mutli image with AS
+FROM busybox:glibc AS image1
+ENV  WORKDIR=/home/sgupta
+WORKDIR ${WORKDIR}
+RUN ["touch", "busybox.txt"]
+RUN ["echo", "from busybox image", ">", "busybox.txt"]
+RUN ["cat", "busybox.txt"]
+
+FROM alpine:latest
+WORKDIR ${WORKDIR}/alpine
+COPY --from=image1 /home/sgupta/busybox.txt .
+RUN ls
+RUN ["cat", "busybox.txt"]
+[sgupta3@dockermgr2 example1]$
+[sgupta3@dockermgr2 example1]$ sudo docker build . -t example4 -f ./dockerfile --no-cache
+Sending build context to Docker daemon  2.048kB
+Step 1/11 : FROM busybox:glibc AS image1
+ ---> 845454170a51
+Step 2/11 : ENV  WORKDIR=/home/sgupta
+ ---> Running in 0255d54b7bdd
+Removing intermediate container 0255d54b7bdd
+ ---> 8f43c62be8ed
+Step 3/11 : WORKDIR ${WORKDIR}
+ ---> Running in 00e81b3414e8
+Removing intermediate container 00e81b3414e8
+ ---> 076a15e73904
+Step 4/11 : RUN ["touch", "busybox.txt"]
+ ---> Running in f5410e9b4a90
+Removing intermediate container f5410e9b4a90
+ ---> 01d81a26fe60
+Step 5/11 : RUN ["echo", "from busybox image", ">", "busybox.txt"]
+ ---> Running in 0dde17aa3a73
+from busybox image > busybox.txt
+Removing intermediate container 0dde17aa3a73
+ ---> 5f9c987be75b
+Step 6/11 : RUN ["cat", "busybox.txt"]
+ ---> Running in 8476d5d76dd3
+Removing intermediate container 8476d5d76dd3
+ ---> 014dc8e4f055
+Step 7/11 : FROM alpine:latest
+ ---> f70734b6a266
+Step 8/11 : WORKDIR ${WORKDIR}/alpine
+ ---> Running in ee896125dc30
+Removing intermediate container ee896125dc30
+ ---> bd5ad19e973d
+Step 9/11 : COPY --from=image1 /home/sgupta/busybox.txt .
+ ---> 7e602aea46b1
+Step 10/11 : RUN ls
+ ---> Running in fdf2af3296b3
+busybox.txt
+Removing intermediate container fdf2af3296b3
+ ---> 82a9dbe46d50
+Step 11/11 : RUN ["cat", "busybox.txt"]
+ ---> Running in db9ba70b7836
+Removing intermediate container db9ba70b7836
+ ---> c923312ce01b
+Successfully built c923312ce01b
+Successfully tagged example4:latest
+[sgupta3@dockermgr2 example1]$
 ```
 ### Environment variable
 Environment variables (declared with the ENV statement) can also be used in certain instructions as variables to be interpreted by the Dockerfile. 
