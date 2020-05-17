@@ -49,7 +49,7 @@ $ docker build -f /path/to/a/Dockerfile .
 
 #You can specify a repository and tag at which to save the new image if the build succeeds:
 
-$ docker build -t sgupta3/myapp .
+$ docker build -t sgupta/myapp .
 
 ```
 ## Dockerfile format
@@ -59,7 +59,7 @@ A Dockerfile must begin with a `FROM` instruction. FROM instructions support var
 With multi-stage builds, you use multiple FROM statements in your Dockerfile. Each FROM instruction can use a different base, and each of them begins a new stage of the build. You can selectively copy artifacts from one stage to another, leaving behind everything you don’t want in the final image.
 
 
-''' FROM [--platform=<platform>] <image>[:<tag>] [AS <name>]'''
+```FROM [--platform=<platform>] <image>[:<tag>] [AS <name>] ```
 
 ```
 # Example 1.a - Simple single image build using FROM
