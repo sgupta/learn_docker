@@ -62,6 +62,10 @@ WORKDIR |Set working directory inside image being prossed| "WORKDIR ${HOME}/proj
 COPY | Copy files or directoreis from source(local space) to destination(inside image)| `COPY python/*.py .`
 ADD | Same as copy but can **use url as source and extract a tar file in destination**|`ADD https://getenvoy.io/cli project1/`
 RUN | Execute commands during build | `RUN cd /root` or `RUN ["ls", "-l", "/root"]`
+CMD | Either an executable or list of arguments to be passed when container run | `CMD ["httpd", "-f", "/etc/httpd.conf"] or CMD ["--logdir", "/var/logs"]`
+ENTRYPOINT | Conatiner on will will execute the execuatble and pass any arguments from CMD | `ENTRYPOINT ["startup.sh", "--debug"]`
+EXPOSE | Set ports to listen on runtime |`EXPOSE 8080`
+VOLUME | create a mount point inside image which on docker run will be available to mount on local file-system| `VOLUMME ["/data"] 
 
 
 ## Dockerfile format
@@ -276,4 +280,19 @@ etc
 Removing intermediate container 0ea265775c0c
 Successfully built 574c88db8639
 [sgupta3@dockermgr2 example2]$
+```
+### All inclusive example
+```
+[sgupta3@dockermgr2 example1]$ cat dockerfile
+FROM alpine:latest
+LABEL os=alpine, date=20200517
+WORKDIR /home/sgupta
+RUN mkdir project1
+COPY copy/ project1/
+COPY script/start.sh bin/
+ADD https://getenvoy.io/cli project1/
+RUN ls project1
+VOLUME ["/home/sgupta/project1"]
+ENTRYPOINT ["/bin/start.sh"]
+
 ```
