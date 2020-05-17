@@ -61,6 +61,25 @@ In all cases, word can be any string, including additional environment variables
 
 Escaping is possible by adding a \ before the variable: \$foo or \${foo}, for example, will translate to $foo and ${foo} literals respectively.
 
+Environment variables are supported by the following list of instructions in the Dockerfile:
+
+ADD
+COPY
+ENV
+EXPOSE
+FROM
+LABEL
+STOPSIGNAL
+USER
+VOLUME
+WORKDIR
+ONBUILD (when combined with one of the supported instructions above)
+Example -
+```
+FROM busybox
+ENV HOME="/home/sgupta
+WORKDIR ${HOME}
+```
 ### RUN 
 The RUN instruction will execute any commands in a new layer on top of the current image and commit the results. The resulting committed image will be used for the next step in the Dockerfile.Layering RUN instructions and generating commits conforms to the core concepts of Docker where commits are cheap and containers can be created from any point in an image’s history, much like source control.
 RUN has 2 forms:
