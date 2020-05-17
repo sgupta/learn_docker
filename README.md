@@ -12,7 +12,29 @@
         #Shell script
         #!/bin/sh
         echo "Hello World!"
-      
+ 
+        Usage:  docker build [OPTIONS] PATH | URL | -
+
+Build an image from a Dockerfile
+
+Options:
+      --build-arg list             Set build-time variables (default [])
+  -f, --file string                Name of the Dockerfile (Default is 'PATH/Dockerfile')
+      --force-rm                   Always remove intermediate containers
+  -m, --memory string              Memory limit
+      --memory-swap string         Swap limit equal to memory plus swap: '-1' to enable unlimited swap
+      --network string             Set the networking mode for the RUN instructions during build (default "default")
+      --no-cache                   Do not use cache when building the image
+      --pull                       Always attempt to pull a newer version of the image
+  -q, --quiet                      Suppress the build output and print image ID on success
+      --rm                         Remove intermediate containers after a successful build (default true)
+  -t, --tag list                   Name and optionally a tag in the 'name:tag' format (default [])
+      --ulimit ulimit              Ulimit options (default [])
+  -v, --volume list                Set build-time bind mounts (default [])
+
+  Example0- 
+ [sgupta3@dockermgr2 example2]$ sudo docker build . -t example3 -f ./dockerfile
+ 
 # Docker file options
 Docker can build images automatically by reading the instructions from a Dockerfile. A Dockerfile is a text document that contains all the commands a user could call on the command line to assemble an image. Using docker build users can create an automated build that executes several command-line instructions in succession.
 The docker build command builds an image from a Dockerfile and a context. The build’s context is the set of files at a specified location PATH or URL. The PATH is a directory on your local filesystem. The URL is a Git repository location.
@@ -77,9 +99,64 @@ ONBUILD (when combined with one of the supported instructions above)
 Example -
 ```
 FROM busybox
-ENV HOME="/home/sgupta
+ENV HOME="/home/sgupta"
 WORKDIR ${HOME}
 ```
+### WORKDIR
+The WORKDIR instruction sets the working directory for any RUN, CMD, ENTRYPOINT, COPY and ADD instructions that follow it in the Dockerfile. If the WORKDIR doesn’t exist, it will be created even if it’s not used in any subsequent Dockerfile instruction.
+The WORKDIR instruction can be used multiple times in a Dockerfile. If a relative path is provided, it will be relative to the path of the previous WORKDIR instruction. For example:
+EXAMPLE
+```
+[sgupta3@dockermgr2 example2]$ cat dockerfile
+FROM busybox:glibc
+#Set environmenent variable HOME
+ENV  HOME=/home/sgupta
+#WORKDIR will change working directory inside image to WORKDIR
+WORKDIR ${HOME}
+#Too bad you can not use environment variable in RUN command
+RUN ["touch", "/home/sgupta/key" ]
+#This will prove working directory changed to $HOME
+RUN pwd
+#Again change working directory which will be relative to previously set
+WORKDIR project
+#Prove it
+RUN pwd
+[sgupta3@dockermgr2 example2]$
+[sgupta3@dockermgr2 example2]$ sudo docker build . -t example3 -f ./dockerfile
+Sending build context to Docker daemon 2.048 kB
+Step 1/7 : FROM busybox:glibc
+ ---> 845454170a51
+Step 2/7 : ENV HOME /home/sgupta
+ ---> Running in 195b9c9750db
+ ---> 4e05e220ca87
+Removing intermediate container 195b9c9750db
+Step 3/7 : WORKDIR ${HOME}
+ ---> fdf106486056
+Removing intermediate container 42a59100972a
+Step 4/7 : RUN touch /home/sgupta/key
+ ---> Running in 9874f2f0bd54
+
+ ---> c2efe72c0a57
+Removing intermediate container 9874f2f0bd54
+Step 5/7 : RUN pwd
+ ---> Running in 9eb2b678c3f8
+
+/home/sgupta
+ ---> 1c9cd484ab4d
+Removing intermediate container 9eb2b678c3f8
+Step 6/7 : WORKDIR project
+ ---> d1688aceeabb
+Removing intermediate container 419fc767606b
+Step 7/7 : RUN pwd
+ ---> Running in 8de31e0e6daf
+
+/home/sgupta/project
+ ---> a8b338117ef1
+Removing intermediate container 8de31e0e6daf
+Successfully built a8b338117ef1
+[sgupta3@dockermgr2 example2]$ 
+```
+
 ### RUN 
 The RUN instruction will execute any commands in a new layer on top of the current image and commit the results. The resulting committed image will be used for the next step in the Dockerfile.Layering RUN instructions and generating commits conforms to the core concepts of Docker where commits are cheap and containers can be created from any point in an image’s history, much like source control.
 RUN has 2 forms:
