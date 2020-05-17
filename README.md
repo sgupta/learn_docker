@@ -55,11 +55,14 @@ $ docker build -t sgupta/myapp .
 OPTION | FUNCTION | EXTRAS
 ------------ | -------------|-----------
 FROM | Download base image for build | "FROM centos7:latest"
+MAINTAINER | User to set name of person or company maintaining image | `MAINTAINER sgupta`
+LABEL | Just add metadata to your image in key=value format | `LABEL os=centos, date=20200517`
 ENV | Environment varibales | "ENV HOME=/home/sgupta"
 WORKDIR |Set working directory inside image being prossed| "WORKDIR ${HOME}/project1"
-RUN | Execute commands during build | `RUN cd /root` or `RUN ["ls", "-l", "/root"]`
 COPY | Copy files or directoreis from source(local space) to destination(inside image)| `COPY python/*.py .`
 ADD | Same as copy but can **use url as source and extract a tar file in destination**|`ADD https://getenvoy.io/cli project1/`
+RUN | Execute commands during build | `RUN cd /root` or `RUN ["ls", "-l", "/root"]`
+
 
 ## Dockerfile format
 Docker runs instructions in a Dockerfile in order.
