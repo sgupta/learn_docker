@@ -58,10 +58,11 @@ Docker runs instructions in a Dockerfile in order.
 A Dockerfile must begin with a `FROM` instruction. FROM instructions support variables that are declared by any ARG instructions that occur before the first FROM.Optionally a name can be given to a new build stage by adding AS name to the FROM instruction. The name can be used in subsequent FROM and COPY --from=<name|index> instructions to refer to the image built in this stage.
 With multi-stage builds, you use multiple FROM statements in your Dockerfile. Each FROM instruction can use a different base, and each of them begins a new stage of the build. You can selectively copy artifacts from one stage to another, leaving behind everything you don’t want in the final image.
 
-FROM [--platform=<platform>] <image>[:<tag>] [AS <name>]
- 
-Example 1.a - Simple single image build using FROM
+
+''' FROM [--platform=<platform>] <image>[:<tag>] [AS <name>]'''
+
 ```
+# Example 1.a - Simple single image build using FROM
 [sgupta3@dockermgr2 example1]$ cat dockerfile
 #example 1 simple FROM
 FROM busybox
@@ -74,7 +75,7 @@ Successfully built 83aa35aa1c79
 
 Example 1.b - Multistage build using AS statement with image and copy file from one image to other
 [sgupta3@dockermgr2 example1]$ cat dockerfile
-#example 1.b mutli image with AS
+#example 1.b mutli image with AS and copy file from one image to other
 FROM busybox:glibc AS image1
 ENV  WORKDIR=/home/sgupta
 WORKDIR ${WORKDIR}
