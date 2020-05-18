@@ -281,6 +281,90 @@ Removing intermediate container 0ea265775c0c
 Successfully built 574c88db8639
 [sgupta3@dockermgr2 example2]$
 ```
+### CMD
+  There can only be one CMD instruction in a Dockerfile. If you list more than one CMD then only the last CMD will take effect.
+  The main purpose of a CMD is to provide defaults for an executing container. These defaults can include an executable, or they can omit the executable, in which case you must specify an ENTRYPOINT instruction as well.
+  Any aruguments in CMD field for executable can be override from command line docker run or docker compose file.
+  If CMD is used to provide default arguments for the ENTRYPOINT instruction, both the CMD and ENTRYPOINT instructions should be specified with the JSON array format.The CMD instruction has three forms:
+
+    CMD ["executable","param1","param2"] (exec form, this is the preferred form)
+    CMD ["param1","param2"] (as default parameters to ENTRYPOINT)
+    CMD command param1 param2 (shell form)
+
+```
+#Example 1 with CMD executable with arguments passed 
+[sgupta3@dockermgr2 example1]$ cat dockerfile
+FROM alpine:latest
+WORKDIR /home/sgupta
+#CMD will do ls command on /bin
+CMD ["ls", "/bin"]
+[sgupta3@dockermgr2 example1]$
+[sgupta3@dockermgr2 example1]$ sudo docker build . -f ./dockerfile -t example6
+Sending build context to Docker daemon  75.14MB
+Step 1/3 : FROM alpine:latest
+ ---> f70734b6a266
+Step 2/3 : WORKDIR /home/sgupta
+ ---> Using cache
+ ---> 41144e9936a5
+Step 3/3 : CMD ["ls", "/bin"]
+ ---> Using cache
+ ---> cf144e0a0ff3
+Successfully built cf144e0a0ff3
+Successfully tagged example6:latest
+[sgupta3@dockermgr2 example1]$ sudo docker run -it example6
+arch           echo           kill           netstat        sh
+ash            ed             link           nice           sleep
+base64         egrep          linux32        pidof          stat
+bbconfig       false          linux64        ping           stty
+busybox        fatattr        ln             ping6          su
+cat            fdflush        login          pipe_progress  sync
+chgrp          fgrep          ls             printenv       tar
+chmod          fsync          lzop           ps             touch
+chown          getopt         makemime       pwd            true
+conspy         grep           mkdir          reformime      umount
+cp             gunzip         mknod          rev            uname
+date           gzip           mktemp         rm             usleep
+dd             hostname       more           rmdir          watch
+df             ionice         mount          run-parts      zcat
+dmesg          iostat         mountpoint     sed
+dnsdomainname  ipcalc         mpstat         setpriv
+dumpkmap       kbd_mode       mv             setserial
+[sgupta3@dockermgr2 example1]$
+[sgupta3@dockermgr2 example1]$ sudo docker run -it example6 "ls" "/etc"
+alpine-release  inittab         opt             services
+apk             issue           os-release      shadow
+conf.d          logrotate.d     passwd          shells
+crontabs        modprobe.d      periodic        ssl
+fstab           modules         profile         sysctl.conf
+group           modules-load.d  profile.d       sysctl.d
+hostname        motd            protocols       udhcpd.conf
+hosts           mtab            resolv.conf
+init.d          network         securetty
+[sgupta3@dockermgr2 example1]$
+```
+
+### ENTRYPOINT
+An ENTRYPOINT allows you to configure a container that will run as an executable.Command line arguments to docker run <image> will be appended after all elements in an exec form ENTRYPOINT, and will override all elements specified using CMD. This allows arguments to be passed to the entry point, i.e., docker run <image> -d will pass the -d argument to the entry point. You can override the ENTRYPOINT instruction using the docker run --entrypoint flag.
+ 
+ ```
+FROM ubuntu
+ENTRYPOINT ["top", "-b"]
+CMD ["-c"]
+
+$ docker run -it --rm --name test  top -H
+
+top - 08:25:00 up  7:27,  0 users,  load average: 0.00, 0.01, 0.05
+Threads:   1 total,   1 running,   0 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  0.1 us,  0.1 sy,  0.0 ni, 99.7 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
+KiB Mem:   2056668 total,  1616832 used,   439836 free,    99352 buffers
+KiB Swap:  1441840 total,        0 used,  1441840 free.  1324440 cached Mem
+
+  PID USER      PR  NI    VIRT    RES    SHR S %CPU %MEM     TIME+ COMMAND
+    1 root      20   0   19744   2336   2080 R  0.0  0.1   0:00.04 top
+ ```
+### USER
+### EXPOSE
+
 ### All inclusive example
 ```
 [sgupta3@dockermgr2 example1]$ cat dockerfile
